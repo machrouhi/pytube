@@ -225,7 +225,10 @@ def get_transform_object(js: str, var: str) -> List[str]:
     regex = re.compile(pattern, flags=re.DOTALL)
     transform_match = regex.search(js)
     if not transform_match:
-        raise RegexMatchError(caller="get_transform_object", pattern=pattern)
+        # Temporary fix for issue: https://github.com/pytube/pytube/issues/1728 
+        # raise RegexMatchError(caller="get_transform_object", pattern=pattern)
+        logger.error(f"No match found for pattern: {pattern}")
+        return []
 
     return transform_match.group(1).replace("\n", " ").split(", ")
 
