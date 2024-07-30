@@ -276,6 +276,7 @@ def get_throttling_function_name(js: str) -> str:
         r'a\.[a-zA-Z]\s*&&\s*\([a-z]\s*=\s*a\.get\("n"\)\)\s*&&\s*'
         r'\([a-z]\s*=\s*([a-zA-Z0-9$]+)(\[\d+\])?\([a-z]\)',
         r'a\.[a-zA-Z]\s*&&\s*\([a-z]\s*=\s*a\.get\("n"\)\)\s*&&.*?\|\|\s*([a-z]+)',
+        r'\([a-z]\s*=\s*([a-zA-Z0-9$]+)(\[\d+\])\([a-z]\)',
     ]
     logger.debug('Finding throttling function name')
     for pattern in function_patterns:
@@ -407,13 +408,14 @@ def get_throttling_plan(js: str):
     :returns:
         The full function code for computing the throttlign parameter.
     """
-    raw_code = get_throttling_function_code(js)
+    # raw_code = get_throttling_function_code(js)
 
-    transform_start = r"try{"
-    plan_regex = re.compile(transform_start)
-    match = plan_regex.search(raw_code)
+    # transform_start = r"try{"
+    # plan_regex = re.compile(transform_start)
+    # match = plan_regex.search(raw_code)
 
-    transform_plan_raw = find_object_from_startpoint(raw_code, match.span()[1] - 1)
+    # transform_plan_raw = find_object_from_startpoint(raw_code, match.span()[1] - 1)
+    transform_plan_raw = js
 
     # Steps are either c[x](c[y]) or c[x](c[y],c[z])
     step_start = r"c\[(\d+)\]\(c\[(\d+)\](,c(\[(\d+)\]))?\)"
